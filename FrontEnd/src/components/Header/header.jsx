@@ -53,7 +53,7 @@ function Header() {
           <div className="flex items-center justify-between">
             {/* ====== logo ======= */}
             <div>
-              <img src={logo} alt="" className="w-[220px]" />
+              <img src={logo} alt="" className="w-[170px] lg:w-[200px]" />
             </div>
 
             {/* ====== menu ======= */}

@@ -2,14 +2,18 @@ import { Link } from "react-router-dom";
 import heroImg1 from "./../assets/img/hero-img01.png";
 import heroImg2 from "./../assets/img/hero-img02.png";
 import heroImg3 from "./../assets/img/hero-img03.png";
+import faqImg from "./../assets/img/faq-img.png";
 import icon01 from "./../assets/img/icon01.png";
 import icon02 from "./../assets/img/icon02.png";
 import icon03 from "./../assets/img/icon03.png";
 import featureImg from "./../assets/img/feature-img.png";
-import { BiSolidRightArrow } from "react-icons/bi";
+import { FaArrowRight } from "react-icons/fa";
 import About from "../components/about/about";
 import Services from "../components/services/services";
 import ServicesList from "../components/services/servicesList";
+import DoctorList from "../components/doctors/doctorsList";
+import FaqList from "../components/faq/faqList";
+import Feedback from "../components/feedback/feedback";
 function Home() {
   return (
     <>
@@ -71,6 +75,8 @@ function Home() {
           </div>
         </section>
         {/* ========== end hero content ======== */}
+
+        {/*========== under hero section =========*/}
         <section>
           <div className="container">
             <div className="lg:w-[470px] mx-auto">
@@ -102,7 +108,7 @@ function Home() {
                       to={"/doctors"}
                       className="w-[44px] h-[44px] rounded-full border border-solid border-[#181A1E] mt-[30px] mx-auto flex items-center justify-center group hover:bg-primaryColor hover:border-none"
                     >
-                      <BiSolidRightArrow className="group-hover:text-white w-6 h-5" />
+                      <FaArrowRight className="group-hover:text-white w-6 h-5" />
                     </Link>
                   </div>
                 </div>
@@ -124,7 +130,7 @@ function Home() {
                       to={"/doctors"}
                       className="w-[44px] h-[44px] rounded-full border border-solid border-[#181A1E] mt-[30px] mx-auto flex items-center justify-center group hover:bg-primaryColor hover:border-none"
                     >
-                      <BiSolidRightArrow className="group-hover:text-white w-6 h-5" />
+                      <FaArrowRight className="group-hover:text-white w-6 h-5" />
                     </Link>
                   </div>
                 </div>
@@ -146,7 +152,7 @@ function Home() {
                       to={"/doctors"}
                       className="w-[44px] h-[44px] rounded-full border border-solid border-[#181A1E] mt-[30px] mx-auto flex items-center justify-center group hover:bg-primaryColor hover:border-none"
                     >
-                      <BiSolidRightArrow className="group-hover:text-white w-6 h-5" />
+                      <FaArrowRight className="group-hover:text-white w-6 h-5" />
                     </Link>
                   </div>
                 </div>
@@ -154,19 +160,20 @@ function Home() {
             </div>
           </div>
         </section>
+        {/*========== under hero section =========*/}
 
         {/* ============ start about section =============*/}
         <About />
         {/* ============ end about section ===============*/}
 
         {/* =========== start service ==============*/}
-        <div className="container">
+        <section className="container">
           <Services />
           <ServicesList />
-        </div>
+        </section>
         {/* =========== end service ==============*/}
 
-        {/* =========== feature ================= */}
+        {/* =========== start feature ================= */}
         <section>
           <div className="container">
             <div className="flex items-center justify-between flex-col lg:flex-row">
@@ -196,7 +203,55 @@ function Home() {
             </div>
           </div>
         </section>
-        {/* =========== feature ================= */}
+        {/* =========== end feature ================= */}
+
+        {/* =========== start doctor =============== */}
+        <section>
+          <div className="container">
+            <div className="xl:w-[470px] mx-auto">
+              <h2 className="heading text-center">Our Best Doctors</h2>
+              <p className="text__para text-center">
+                World-class care for everyone. Our health system offers
+                unmatched, expert health care.
+              </p>
+            </div>
+            <DoctorList />
+          </div>
+        </section>
+        {/* =========== end doctor =============== */}
+
+        {/*=========== start faq question =========*/}
+        <section>
+          <div className="container">
+            <div className="flex items-center gap-[50px] lg:gap-0 ">
+              <div className="w-1/2 hidden md:block">
+                <img src={faqImg} alt="" />
+              </div>
+              <div className="w-full md:w-1/2">
+                <h2 className="heading mb-5">
+                  Most question by our beloved patients
+                </h2>
+                <FaqList />
+              </div>
+            </div>
+          </div>
+        </section>
+        {/*=========== end faq question =========*/}
+
+        {/*=========== start patient`s feedback ==========*/}
+        <section>
+          <div className="container">
+            <div className="xl:w-[470px] mx-auto">
+              <h2 className="heading text-center">What Patient`s Says</h2>
+              <p className="text__para text-center">
+                World-class care for everyone. Our health system offers
+                unmatched, expert health care.
+              </p>
+            </div>
+            <Feedback />
+          </div>
+        </section>
+        {/*=========== end patient`s feedback ==========*/}
       </>
     </>
   );
