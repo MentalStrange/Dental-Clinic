@@ -6,11 +6,11 @@ import { useEffect, useRef } from "react";
 const navLinks = [
   {
     path: "/",
-    display: "home",
+    display: "Home",
   },
   {
     path: "/doctors",
-    display: "find your doctor",
+    display: "Find a Doctor",
   },
   {
     path: "/services",
@@ -18,7 +18,7 @@ const navLinks = [
   },
   {
     path: "/contact",
-    display: "contact",
+    display: "Contact",
   },
 ];
 function Header() {

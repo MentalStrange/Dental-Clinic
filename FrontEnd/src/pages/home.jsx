@@ -5,8 +5,11 @@ import heroImg3 from "./../assets/img/hero-img03.png";
 import icon01 from "./../assets/img/icon01.png";
 import icon02 from "./../assets/img/icon02.png";
 import icon03 from "./../assets/img/icon03.png";
+import featureImg from "./../assets/img/feature-img.png";
 import { BiSolidRightArrow } from "react-icons/bi";
 import About from "../components/about/about";
+import Services from "../components/services/services";
+import ServicesList from "../components/services/servicesList";
 function Home() {
   return (
     <>
@@ -152,9 +155,48 @@ function Home() {
           </div>
         </section>
 
-        {/* ============ start about section */}
+        {/* ============ start about section =============*/}
         <About />
-        {/* ============ end about section */}
+        {/* ============ end about section ===============*/}
+
+        {/* =========== start service ==============*/}
+        <div className="container">
+          <Services />
+          <ServicesList />
+        </div>
+        {/* =========== end service ==============*/}
+
+        {/* =========== feature ================= */}
+        <section>
+          <div className="container">
+            <div className="flex items-center justify-between flex-col lg:flex-row">
+              {/* =========== feature content ========= */}
+              <div className="xl:w-[670px]">
+                <h2 className="heading">Get Virtual treatment</h2>
+                <ul className="pl-4">
+                  <li className="text__para">
+                    1. Schedule the appointment directly
+                  </li>
+                  <li className="text__para">
+                    2. Search for your physician here, and contact their office.
+                  </li>
+                  <li className="text__para">
+                    3. View Our physician who are accepting new patients.
+                  </li>
+                </ul>
+                <Link to={"/"}>
+                  <button className="btn">Learn More</button>
+                </Link>
+              </div>
+              {/* =========== feature img =========== */}
+              <div className="relative z-10 xl:w-[770px] flex justify-center lg:justify-end mt-[50px] lg:mt-0 ">
+                <img src={featureImg} className="w-3/4" alt="" />
+                <div className="w-[150px] lg:w-[248px] bg-white absolute bottom-[50px] left-0 md:bottom-[100px] "></div>
+              </div>
+            </div>
+          </div>
+        </section>
+        {/* =========== feature ================= */}
       </>
     </>
   );
