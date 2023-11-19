@@ -3,12 +3,13 @@ import doctorImg from "./../../assets/img/doctor-img01.png";
 import starIcon from "./../../assets/img/Star.png";
 import DoctorAbout from "./doctorAbout";
 import DoctorFeedback from "./doctorFeedback";
+import SidePanel from "./sidePanel";
 function DoctorDetails() {
   const [tab, setTab] = useState("about");
   return (
     <>
       <section>
-        <div className="container max-w-[1170px] mx-auto">
+        <div className="max-w-[1170px] px-5 mx-auto">
           <div className="grid md:grid-cols-3 gap-[50px]">
             <div className="md:col-span-2">
               <div className="flex items-center gap-5 ">
@@ -60,6 +61,9 @@ function DoctorDetails() {
                 {tab == "about" && <DoctorAbout />}
                 {tab == "feedback" && <DoctorFeedback />}
               </div>
+            </div>
+            <div>
+              <SidePanel />
             </div>
           </div>
         </div>
