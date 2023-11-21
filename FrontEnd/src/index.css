@@ -27,6 +27,13 @@
   .hero__section {
     @apply bg-[url(./assets/img/hero-bg.png)] bg-no-repeat bg-center bg-cover;
   }
+  .form__input {
+    @apply w-full px-4 py-3 border border-solid border-[#0066ff62] focus:outline-none
+    focus:border-primaryColor text-[16px] leading-6 text-headingColor placeholder:text-textColor cursor-pointer rounded-md;
+  }
+  .form__label {
+    @apply text-textColor font-semibold text-[16px] mb-2;
+  }
 }
 
 @media only screen and(max-width:1024px) {

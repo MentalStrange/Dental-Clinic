@@ -23,8 +23,8 @@ function Login() {
                 type="email"
                 name=""
                 id=""
-                value={formData.email}
                 placeholder="Enter Your Email"
+                value={formData.email}
                 onChange={handleInputChange}
                 className="w-full px-4 py-3 border-b border--solid border-[#0066ff61] focus:outline-none
                 focus:border-b-primaryColor text-[22px] leading-7 text-headingColor placeholder:text-extColor rounded-md cursor-pointer"
@@ -50,8 +50,8 @@ function Login() {
               </button>
             </div>
             <p className="mt-5 text-textColor text-center ">
-              Don&apos;t have an account?{" "}
-              <Link to={"/register"} className="text-primaryColor">
+              Don&apos;t have an account?{"  "}
+              <Link to={"/register"} className="text-primaryColor font-bold">
                 SignUp
               </Link>
             </p>
