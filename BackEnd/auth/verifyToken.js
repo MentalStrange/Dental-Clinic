@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
-import Doctor from "./../models/doctorSchema.js";
-import User from "./../models/userSchema.js";
+import Doctor from "../models/doctorSchema.js";
+import User from "../models/userSchema.js";
 
 export const authenticate = async (req, res, next) => {
   // get token from headers
@@ -17,8 +17,6 @@ export const authenticate = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
     req.userId = decoded.id;
     req.role = decoded.role;
-    console.log("req of user id", req.userId);
-
     next();
   } catch (error) {
     if (error.name === "TokenExpiredError") {

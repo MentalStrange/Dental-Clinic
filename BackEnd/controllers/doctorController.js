@@ -10,11 +10,13 @@ export const updateDoctor = async (req, res) => {
     );
     res.status(200).json({
       success: true,
-      message: "Successfully updated",
+      message: "Successfully modified",
       data: updatedDoctor,
     });
   } catch (error) {
-    res.status(error.status).json({ success: false, message: error.message });
+    res
+      .status(error.statusCode || 500)
+      .json({ success: false, message: error.message });
   }
 };
 
@@ -25,24 +27,30 @@ export const deleteDoctor = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Successfully deleted",
-      data: deleteDoctor,
+      data: null, // No need to include data for delete operation
     });
   } catch (error) {
-    res.status(error.status).json({ success: false, message: error.message });
+    res
+      .status(error.statusCode || 500)
+      .json({ success: false, message: error.message });
   }
 };
 
 export const getSingleDoctor = async (req, res) => {
   const id = req.params.id;
   try {
-    const getSingleDoctor = await Doctor.findById(id).select("-password");
+    const singleDoctor = await Doctor.findById(id)
+      // .populate("reviews")
+      .select("-password");
     res.status(200).json({
       success: true,
-      message: "Successfully Founded",
-      data: getSingleDoctor,
+      message: "Successfully founded",
+      data: singleDoctor,
     });
   } catch (error) {
-    res.status(error.status).json({ success: false, message: error.message });
+    res
+      .status(error.statusCode || 500)
+      .json({ success: false, message: error.message });
   }
 };
 
@@ -59,16 +67,18 @@ export const getAllDoctor = async (req, res) => {
         ],
       }).select("-password");
     } else {
-      doctors = await Doctor.find({}).select("-password");
+      doctors = await Doctor.find({ isApproved: "approved" }).select(
+        "-password"
+      );
     }
     res.status(200).json({
       success: true,
-      message: "Successfully Founded",
+      message: "Successfully founded",
       data: doctors,
     });
   } catch (error) {
     res
-      .status(error.status || 500)
+      .status(error.statusCode || 500)
       .json({ success: false, message: error.message });
   }
 };
