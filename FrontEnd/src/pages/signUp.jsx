@@ -1,29 +1,61 @@
 import signUpImg from "./../assets/img/signup.gif";
-import avatar from "./../assets/img/patient-avatar.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import uploadImageToCloudinary from "../utils/cloudinary";
+import { BASE_URL } from "../../config";
+import { toast } from "react-toastify";
+import { HashLoader } from "react-spinners";
+
 function SignUp() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewURL, setPreviewURL] = useState("");
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
-    photo: "",
+    photo: selectedFile,
     gender: "",
-    role: "patient",
+    role: "",
   });
+  const Navigate = useNavigate();
   const handleInputChange = (e) => {
     e.preventDefault();
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
   const handleInputFileChange = async (e) => {
     const file = e.target.files[0];
-
-    // console.log(file);
+    const data = await uploadImageToCloudinary(file);
+    setPreviewURL(data.url);
+    setSelectedFile(data.url);
+    setFormData({ ...formData, photo: data.url });
   };
+
   const submitHandler = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    try {
+      const res = await fetch(`${BASE_URL}/auth/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const { message } = res.json();
+      if (!res.ok) {
+        setLoading(false);
+        toast.error(message);
+        throw new Error(message);
+      }
+      setLoading(false);
+      toast.success(message);
+      Navigate("/login");
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
   return (
     <>
@@ -43,11 +75,11 @@ function SignUp() {
                 Create an <span className="text-primaryColor">account</span>
               </h3>
 
-              <form action="" onSubmit={submitHandler}>
+              <form action="/login" onSubmit={submitHandler}>
                 <div className="mb-5">
                   <input
                     type="text"
-                    name=""
+                    name="name"
                     id=""
                     placeholder="full name"
                     value={formData.name}
@@ -60,7 +92,7 @@ function SignUp() {
                 <div className="mb-5">
                   <input
                     type="email"
-                    name=""
+                    name="email"
                     id=""
                     placeholder="your email"
                     value={formData.email}
@@ -73,7 +105,7 @@ function SignUp() {
                 <div className="mb-5">
                   <input
                     type="password"
-                    name=""
+                    name="password"
                     id=""
                     placeholder="your password"
                     value={formData.password}
@@ -92,8 +124,10 @@ function SignUp() {
                     <select
                       className="text-textColor font-semibold text-[15px]  leading-7 px-[6px] py-[6px] ml-2 focus:outline-none"
                       value={formData.role}
+                      name="role"
                       onChange={handleInputChange}
                     >
+                      <option>Choose One</option>
                       <option value="patient">Patient</option>
                       <option value="doctor">Doctor</option>
                     </select>
@@ -106,8 +140,10 @@ function SignUp() {
                     <select
                       className="text-textColor font-semibold text-[15px]  leading-7 px-[6px] py-[6px] ml-2 focus:outline-none"
                       value={formData.gender}
+                      name="gender"
                       onChange={handleInputChange}
                     >
+                      <option>Choose One</option>
                       <option value="male">Male</option>
                       <option value="female">Female</option>
                     </select>
@@ -115,16 +151,21 @@ function SignUp() {
                 </div>
 
                 <div className="mb-5 flex items-center gap-3">
-                  <figure className="w-[60px] h-[60px] rounded-full border-2 border-solid border-primaryColor ">
-                    <img src={avatar} alt="" className="w-full rounded-full" />
-                  </figure>
+                  {selectedFile && (
+                    <figure className="w-[60px] h-[60px] rounded-full border-2 border-solid border-primaryColor ">
+                      <img
+                        src={previewURL}
+                        alt=""
+                        className="w-full rounded-full"
+                      />
+                    </figure>
+                  )}
 
                   <div className="relative w-[130px] h-[50px]">
                     <input
                       type="file"
                       name="photo"
                       id="customFile"
-                      value={formData.photo}
                       onChange={handleInputFileChange}
                       accept=".jpg, .png"
                       className="absolute top-0 left-0 w-full opacity-0 cursor-pointer"
@@ -138,8 +179,16 @@ function SignUp() {
                   </div>
                 </div>
                 <div className="mt-2">
-                  <button type="submit" className="btn w-full rounded-md ">
-                    Sign Up
+                  <button
+                    type="submit"
+                    className="btn w-full rounded-md "
+                    disabled={loading && true}
+                  >
+                    {loading ? (
+                      <HashLoader size={35} color="white" />
+                    ) : (
+                      "Sign Up"
+                    )}
                   </button>
                 </div>
                 <p className="mt-5 text-textColor text-center ">
