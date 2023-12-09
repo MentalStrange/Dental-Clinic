@@ -30,13 +30,14 @@ function Login() {
         body: JSON.stringify(formData),
       });
 
-      const result = await res.json();
       if (!res.ok) {
         setLoading(false);
+        const result = await res.json();
         toast.error(result.message);
         throw new Error(result.message);
       }
 
+      const result = await res.json();
       dispatch({
         type: "LOGIN_SUCCESS",
         payload: {

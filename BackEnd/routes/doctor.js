@@ -13,8 +13,18 @@ const router = express.Router();
 
 router.use("/:doctorId/reviews", reviewRouter);
 
-router.get("/", authenticate, restrict(["admin"]), getAllDoctor);
-router.get("/:id", authenticate, restrict(["doctor"]), getSingleDoctor);
+router.get(
+  "/",
+  authenticate,
+  restrict(["admin", "patient", "doctor"]),
+  getAllDoctor
+);
+router.get(
+  "/:id",
+  authenticate,
+  restrict(["doctor", "patient"]),
+  getSingleDoctor
+);
 router.put("/:id", authenticate, restrict(["doctor"]), updateDoctor);
 router.delete(
   "/:id",

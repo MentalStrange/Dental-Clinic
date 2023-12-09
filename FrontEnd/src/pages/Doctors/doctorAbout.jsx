@@ -1,12 +1,12 @@
 import { formateDate } from "../../utils/formateDate";
-function DoctorAbout() {
+function DoctorAbout(doctor) {
   return (
     <>
       <div>
         <h3 className="text-[20px] leading-[30px] text-textColor font-semibold flex items-center gap-2  ">
           About of{" "}
           <span className="text-irisBlueColor font-bold text-[24px] leading-6 ">
-            Mohamed Ramadan{" "}
+            {doctor.name}{" "}
           </span>
         </h3>
         <p className="text__para">

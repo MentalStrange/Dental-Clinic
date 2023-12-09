@@ -16,7 +16,7 @@ function Routers() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/doctors" element={<Doctors />} />
-        <Route path="/doctors/1" element={<DoctorDetails />} />
+        <Route path="/doctors/:id" element={<DoctorDetails />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<SignUp />} />
         <Route path="/contact" element={<Contact />} />

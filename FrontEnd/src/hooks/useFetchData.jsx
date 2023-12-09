@@ -11,9 +11,9 @@ function useFetchData(url) {
       setLoading(true);
       try {
         const res = await fetch(url, {
+          method: "GET",
           headers: { Authorization: `Bearer ${token}` },
         });
-        console.log(token);
         const result = await res.json();
         if (!res.ok) {
           throw new Error(result.message);

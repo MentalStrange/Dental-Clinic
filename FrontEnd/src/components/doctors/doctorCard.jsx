@@ -3,8 +3,11 @@
 import { Link } from "react-router-dom";
 import starIcon from "./../../assets/img/Star.png";
 import { FaArrowRight } from "react-icons/fa";
+import useFetchData from "./../../hooks/useFetchData";
+import { BASE_URL } from "../../../config";
 function DoctorCard({ doctor }) {
   const {
+    _id: id,
     name,
     specialty,
     photo,
@@ -13,6 +16,11 @@ function DoctorCard({ doctor }) {
     totalPatients,
     hospital,
   } = doctor;
+  const {
+    data: doctorData,
+    loading,
+    error,
+  } = useFetchData(`${BASE_URL}/doctors/${id}`);
   return (
     <>
       <div className="p-3 lg:p-5 ">
@@ -46,7 +54,7 @@ function DoctorCard({ doctor }) {
             </p>
           </div>
           <Link
-            to={"/doctors/1"}
+            to={`/doctors/${id}}`}
             className="w-[44px] h-[44px] rounded-full border border-solid border-[#181A1E]  flex items-center justify-center group hover:bg-primaryColor hover:border-none"
           >
             <FaArrowRight className="group-hover:text-white w-6 h-5" />

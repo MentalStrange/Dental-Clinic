@@ -44,12 +44,14 @@ function SignUp() {
         body: JSON.stringify(formData),
       });
 
-      const { message } = res.json();
       if (!res.ok) {
         setLoading(false);
-        toast.error(message);
-        throw new Error(message);
+        const errorMessage = await res.text();
+        toast.error(errorMessage);
+        throw new Error(errorMessage);
       }
+
+      const { message } = await res.json();
       setLoading(false);
       toast.success(message);
       Navigate("/login");
@@ -57,6 +59,7 @@ function SignUp() {
       toast.error(error.message);
     }
   };
+
   return (
     <>
       <section className="px-5 xl:px-0">

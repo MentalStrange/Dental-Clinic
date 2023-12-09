@@ -4,7 +4,7 @@ function Loading() {
   return (
     <>
       <div className="flex items-center justify-center w-full h-full">
-        <HashLoader color="primaryColor" />
+        <HashLoader color="#0067ff" />
       </div>
     </>
   );

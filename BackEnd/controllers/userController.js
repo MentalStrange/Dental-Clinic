@@ -72,13 +72,11 @@ export const getUserProfile = async (req, res) => {
     }
 
     const { password, ...rest } = user._doc;
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "User Found Successfully",
-        data: { ...rest },
-      });
+    res.status(200).json({
+      success: true,
+      message: "User Found Successfully",
+      data: { ...rest },
+    });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -90,17 +88,15 @@ export const getMyAppointment = async (req, res) => {
 
     const doctorIds = bookings.map((booking) => booking.doctorId);
 
-    const doctors = await Doctor.find({ _id: { $id: doctorIds } }).select(
+    const doctors = await Doctor.find({ _id: { $in: doctorIds } }).select(
       "-password"
     );
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "appointment are founded",
-        data: { doctors },
-      });
+    res.status(200).json({
+      success: true,
+      message: "Appointments found",
+      data: { doctors },
+    });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
