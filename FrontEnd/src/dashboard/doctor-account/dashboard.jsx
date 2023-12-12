@@ -93,11 +93,11 @@ function Dashboard() {
           </div>
           <div className="md:col-span-2">
             {tab === "overview" ? (
-              <Overview />
+              <Overview doctor={data} />
             ) : tab === "profile" ? (
               <Profile doctor={data} />
             ) : (
-              <Appointment />
+              <Appointment appointments={data.appointments} />
             )}
           </div>
         </div>

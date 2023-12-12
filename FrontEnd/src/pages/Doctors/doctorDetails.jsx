@@ -27,7 +27,7 @@ function DoctorDetails() {
     bio,
     totalRating,
   } = data;
-  console.log(data, loading, error);
+  // console.log(data, loading, error);
   return (
     <>
       <section>
@@ -83,7 +83,7 @@ function DoctorDetails() {
               </div>
             </div>
             <div>
-              <SidePanel />
+              <SidePanel doctor={data} />
             </div>
           </div>
         </div>

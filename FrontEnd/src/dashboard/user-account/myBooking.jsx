@@ -1,19 +1,17 @@
+/* eslint-disable react/prop-types */
 import useFetchData from "../../hooks/useFetchData";
 import { BASE_URL } from "../../../config";
 import Loading from "../../components/loader/loading";
 import Error from "../../components/error/error";
 import DoctorCard from "../../components/doctors/doctorCard";
 
-function MyBooking() {
+// eslint-disable-next-line react/prop-types
+function MyBooking({ doctor }) {
   const {
     data: appointments,
     loading,
     error,
   } = useFetchData(`${BASE_URL}/users/appointments/my-appointments`);
-
-  console.log("Appointments:", appointments);
-  console.log("Loading:", loading);
-  console.log("Error:", error);
 
   return (
     <>

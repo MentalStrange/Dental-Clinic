@@ -1,33 +1,6 @@
-function Appointment() {
-  // Mock data for appointments (replace this with your actual data)
-  const appointments = [
-    {
-      id: 1,
-      patientName: "John Doe",
-      gender: "Male",
-      date: "2023-12-15",
-      time: "10:30 AM",
-      payment: "Cash",
-      price: "$50",
-      bookedOn: "2023-12-10",
-    },
-    {
-      id: 2,
-      patientName: "Jane Smith",
-      gender: "Female",
-      date: "2023-12-16",
-      time: "02:00 PM",
-      payment: "Card",
-      price: "$75",
-      bookedOn: "2023-12-08",
-    },
-    // Add more appointment data as needed
-  ];
-
-  const handleDeletePatient = (id) => {
-    // Implement the logic to delete the patient with the given ID
-    console.log(`Delete patient with ID: ${id}`);
-  };
+/* eslint-disable react/prop-types */
+function Appointment({ appointments }) {
+  console.log(appointments);
 
   return (
     <div className="p-5 h-screen">

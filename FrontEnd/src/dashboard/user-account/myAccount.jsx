@@ -28,21 +28,25 @@ function MyAccount() {
               <div className="pb-[50px] px-[30px] rounded-md">
                 <div className="flex items-center justify-center">
                   <figure className="w-[100px] h-[100px] rounded-full border-2 border-solid border-primaryColor ">
-                    <img src="" alt="" className="w-full h-full rounded-full" />
+                    <img
+                      src={data.photo}
+                      alt={data.name}
+                      className="w-full h-full rounded-full"
+                    />
                   </figure>
                 </div>
 
                 <div className="text-center mt-4">
                   <h3 className="text-[18px] leading-[30px] text-headingColor font-bold">
-                    Mohamed Ramadan
+                    {data.name}
                   </h3>
                   <p className="text-textColor text-[15px] leading-6 font-medium">
-                    Mohamd@gmail.com
+                    {data.email}
                   </p>
                   <p className="text-textColor text-[15px] leading-6 font-medium">
                     Blood Type:{" "}
                     <span className="ml-2 text-headingColor text-[22px] leading-8">
-                      B+
+                      {data.bloodType}
                     </span>
                   </p>
                 </div>
@@ -85,7 +89,11 @@ function MyAccount() {
                     Profile Settings
                   </button>
                 </div>
-                {tab === "booking" ? <MyBooking /> : <ProfileSettings />}
+                {tab === "booking" ? (
+                  <MyBooking user={data} />
+                ) : (
+                  <ProfileSettings />
+                )}
               </div>
             </div>
           )}

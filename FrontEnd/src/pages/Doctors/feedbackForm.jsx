@@ -1,13 +1,57 @@
 import { useState } from "react";
 import { AiFillStar } from "react-icons/ai";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import Loading from "../../components/loader/loading";
+import { BASE_URL } from "../../../config";
 
 function FeedbackForm() {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
   const [reviewText, setReviewText] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  // const doctorId = useParams("id").id;
+  // const cleanedDoctorId = doctorId
+  //   ? doctorId.replace(/[^a-zA-Z0-9_]/g, "")
+  //   : "";
+  // const userObjectString = localStorage.getItem("user");
+  // const userObject = JSON.parse(userObjectString);
+  // const userId = userObject._id;
+
+  // console.log(userId, cleanedDoctorId);
+
   const handleSubmitReview = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    try {
+      const res = await fetch(`${BASE_URL}/reviews/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          reviewText: reviewText,
+          rating: rating,
+        }),
+      });
+      console.log(res);
+
+      if (!res.ok) {
+        const errorMessage = await res.text();
+        toast.error(errorMessage);
+        throw new Error(errorMessage);
+      }
+
+      const { message } = await res.json();
+      toast.success(message);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
+
   return (
     <>
       <form action="">
@@ -49,10 +93,10 @@ function FeedbackForm() {
             className="border border-solid border-[#0066ff34] focus:outline outline-primaryColor w-full px-4 py-3 rounded-md"
             placeholder="Write Your Feedback"
             onChange={(e) => setReviewText(e.target.value)}
-          ></textarea>
+          />
         </div>
         <button className="btn" type="submit" onClick={handleSubmitReview}>
-          Submit Feedback
+          {loading ? <Loading /> : "Submit Feedback"}
         </button>
       </form>
     </>

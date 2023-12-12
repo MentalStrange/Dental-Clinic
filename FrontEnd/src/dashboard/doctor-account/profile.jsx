@@ -232,7 +232,7 @@ function Profile({ doctor }) {
       <hr className="border border-solid border-primaryColor my-10" />
 
       <div className="mb-5">
-        {qualification.map((index) => {
+        {qualification.map((section, index) => {
           return (
             <div
               className="flex flex-col md:flex-row justify-between gap-10"
@@ -244,7 +244,7 @@ function Profile({ doctor }) {
                   type="date"
                   name="startDate"
                   id={`startDate${index}`}
-                  // value={formData.qualifications[index].startDate}
+                  value={section.startDate}
                   onChange={(e) =>
                     handleQualificationChange(
                       index,
@@ -261,7 +261,7 @@ function Profile({ doctor }) {
                   type="date"
                   name="endDate"
                   id={`endDate${index}`}
-                  // value={formData.qualifications[index].endDate}
+                  value={section.endDate}
                   onChange={(e) =>
                     handleQualificationChange(index, "endDate", e.target.value)
                   }
@@ -274,7 +274,7 @@ function Profile({ doctor }) {
                   type="text"
                   name="degree"
                   id={`degree${index}`}
-                  // value={formData.qualifications[index].degree}
+                  value={section.degree}
                   onChange={(e) =>
                     handleQualificationChange(index, "degree", e.target.value)
                   }
@@ -287,7 +287,7 @@ function Profile({ doctor }) {
                   type="text"
                   name="university"
                   id={`university${index}`}
-                  // value={formData.qualifications[index].university}
+                  value={section.university}
                   onChange={(e) =>
                     handleQualificationChange(
                       index,
@@ -314,7 +314,7 @@ function Profile({ doctor }) {
       </div>
 
       <div className="mb-5">
-        {time.map((index) => {
+        {time.map((section, index) => {
           return (
             <div
               className="flex flex-col md:flex-row justify-between gap-10"
@@ -326,7 +326,7 @@ function Profile({ doctor }) {
                   type="time"
                   name="startTime"
                   id={`startTime${index}`}
-                  // value={formData.timeSlots[index].startTime}
+                  value={section.startTime}
                   onChange={(e) =>
                     handleTimeChange(index, "startTime", e.target.value)
                   }
@@ -339,7 +339,7 @@ function Profile({ doctor }) {
                   type="time"
                   name="endTime"
                   id={`endTime${index}`}
-                  // value={formData.timeSlots[index].endTime}
+                  value={section.endTime}
                   onChange={(e) =>
                     handleTimeChange(index, "endTime", e.target.value)
                   }
@@ -352,7 +352,7 @@ function Profile({ doctor }) {
                   type="text"
                   name="day"
                   id={`day${index}`}
-                  // value={formData.timeSlots[index].day}
+                  value={section.day}
                   onChange={(e) =>
                     handleTimeChange(index, "day", e.target.value)
                   }

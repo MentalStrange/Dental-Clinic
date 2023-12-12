@@ -1,6 +1,7 @@
 import User from "../models/userSchema.js";
 import Booking from "../models/bookingSchema.js";
 import Doctor from "../models/doctorSchema.js";
+import Review from "../models/reviewSchema.js";
 
 export const updateUser = async (req, res) => {
   const id = req.params.id;
@@ -99,5 +100,65 @@ export const getMyAppointment = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const createAppointment = async (req, res) => {
+  const { doctorId, user } = req.body;
+  const doctor = findById(doctorId);
+  if (!doctor) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Doctor Not Found" });
+  }
+  try {
+    if (!doctor || !user) {
+      return res
+        .status(401)
+        .json({ success: false, message: "there is something wrong" });
+    }
+    const appointment = new Booking({
+      doctor: doctorId,
+      user,
+      ticketPrice: doctor.ticketPrice,
+      appointmentDate: doctor.appointments[0].day,
+    });
+
+    await appointment.save();
+    res.status(200).json({
+      success: true,
+      message: "Appointment saved successfully",
+      data: appointment,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const createFeedback = async (req, res) => {
+  const { doctorId, userId, reviewText, rating } = req.body;
+
+  try {
+    const feedback = new Review({
+      doctor: doctorId,
+      user: userId,
+      reviewText,
+      rating,
+    });
+    if (!feedback) {
+      return res
+        .status(500)
+        .send({ success: false, message: "feedback not saved" });
+    }
+    await feedback.save();
+    await Doctor.findByIdAndUpdate(doctorId, {
+      $push: { reviews: feedback._id }, // Assuming you have a reviews field in Doctor schema
+    });
+
+    res
+      .status(201)
+      .json({ success: true, message: "Feedback saved successfully" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Something went wrong" });
   }
 };
