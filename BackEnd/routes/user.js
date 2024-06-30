@@ -15,7 +15,7 @@ const router = express.Router();
 
 router.get("/", authenticate, restrict(["admin"]), getAllUser);
 router.get("/:id", authenticate, restrict(["patient"]), getSingleUser);
-router.put("/:id", authenticate, restrict(["patient"]), updateUser);
+router.patch("/:id", authenticate, restrict(["patient"]), updateUser);
 router.delete("/:id", authenticate, restrict(["patient", "admin"]), deleteUser);
 
 router.get("/profile/me", authenticate, restrict(["patient"]), getUserProfile);
@@ -26,7 +26,12 @@ router.get(
   getMyAppointment
 );
 
-router.post("/appointments/createAppointment", createAppointment);
-router.post("/feedback/createFeedback", createFeedback);
+router.post("/appointments/createAppointment",authenticate, restrict(["patient"]), createAppointment);
+router.post(
+  "/feedback/createFeedback",
+  authenticate,
+  restrict(["patient"]),
+  createFeedback
+);
 
 export default router;

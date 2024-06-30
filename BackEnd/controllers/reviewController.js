@@ -3,14 +3,24 @@ import Doctors from "../models/doctorSchema.js";
 
 export const getAllReviews = async (req, res) => {
   try {
-    const reviews = await Review.find({});
+    const reviews = await Review.find();
     res.status(200).json({
       success: true,
-      message: "the review was successfully",
+      message: "The reviews were retrieved successfully",
       data: reviews,
     });
   } catch (error) {
-    res.status(404).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const getReviewsByDoctorId = async (req, res) => {
+  const doctorId = req.params.doctorId;
+  try {
+    const reviews = await Review.find({ doctor: doctorId }).populate('user', 'name photo').lean().exec();
+    return res.status(200).json({ success: true, message: "Reviews retrieved successfully", data: reviews });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -27,7 +37,7 @@ export const createReview = async (req, res) => {
     });
     res
       .status(200)
-      .json({ success: true, message: savedReview, data: newReview });
+      .json({ success: true, message: "Review created successfully", data: savedReview });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }

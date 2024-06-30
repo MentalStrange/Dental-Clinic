@@ -1,8 +1,12 @@
-import { doctors } from "../../assets/data/doctors";
+import { BASE_URL } from "../../../config";
 import DoctorCard from "../../components/doctors/doctorCard";
 import Feedback from "../../components/feedback/feedback";
+import useFetchData from "../../hooks/useFetchData";
+import Loading from "../../components/loader/loading";
+import Error from "../../components/error/error";
 
 function Doctors() {
+  const {data:doctors, error, loading} = useFetchData(`${BASE_URL}/doctors/`);
   return (
     <>
       <section className="bg-[#fff9ea] ">
@@ -24,11 +28,15 @@ function Doctors() {
       </section>
       <section>
         <div className="container">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-            {doctors.map((doctor) => {
-              return <DoctorCard doctor={doctor} key={doctor.id} />;
-            })}
-          </div>
+          {loading && !error && <Loading />}
+          {error && !loading && <Error errorMessage={error} />}
+          {!loading && !error && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+              {doctors.map((doctor) => {
+                return <DoctorCard doctor={doctor} key={doctor.id} />;
+              })}
+            </div>
+          )}
         </div>
       </section>
       <hr className="container border border-solid border-primaryColor" />

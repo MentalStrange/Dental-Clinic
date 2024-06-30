@@ -1,5 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
-import logo from "./../../assets/img/logo.png";
+import logo from "./../../assets/img/logo.svg";
 import { BiMenu } from "react-icons/bi";
 import { useEffect, useRef, useContext } from "react";
 import { authContext } from "../../context/authContext";
@@ -25,7 +25,6 @@ function Header() {
   const headerRef = useRef(null);
   const menuRef = useRef(null);
   const { user, role, token } = useContext(authContext);
-
   const handelHeaderSticky = () => {
     window.addEventListener("scroll", () => {
       if (
@@ -54,7 +53,7 @@ function Header() {
           <div className="flex items-center justify-between">
             {/* ====== logo ======= */}
             <div>
-              <img src={logo} alt="" className="w-[170px] lg:w-[200px]" />
+              <img src={logo} alt="" className="w-[100px] lg:w-[120px]" />
             </div>
 
             {/* ====== menu ======= */}
@@ -95,11 +94,11 @@ function Header() {
                         : "/users/profile/me"
                     }`}
                   >
-                    <figure className="w-[35px] h-[35px] rounded-full">
+                    <figure className="w-[55px] h-[55px] rounded-full">
                       <img
                         src={user.photo}
                         alt=""
-                        className="rounded-full w-full"
+                        className="w-[55px] h-[55px] rounded-full"
                       />
                     </figure>
                   </Link>

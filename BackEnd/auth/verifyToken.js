@@ -5,7 +5,6 @@ import User from "../models/userSchema.js";
 export const authenticate = async (req, res, next) => {
   // get token from headers
   const authToken = req.headers.authorization;
-
   // check if the token is valid
   if (!authToken || !authToken.startsWith("Bearer")) {
     return res

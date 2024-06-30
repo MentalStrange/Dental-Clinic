@@ -6,28 +6,30 @@ import SidePanel from "./sidePanel";
 import { useParams } from "react-router-dom";
 import useFetchData from "../../hooks/useFetchData";
 import { BASE_URL } from "../../../config";
+import Loading from "../../components/loader/loading";
+import Error from "../../components/error/error";
 
 function DoctorDetails() {
   const [tab, setTab] = useState("about");
   const { id } = useParams();
 
-  // Ensure id is defined and contains only alphanumeric characters and underscores
-  const cleanedId = id ? id.replace(/[^a-zA-Z0-9_]/g, "") : "";
-
   const { data, loading, error } = useFetchData(
-    `${BASE_URL}/doctors/${cleanedId}`
+    `${BASE_URL}/doctors/${id}`
   );
+  if (loading) {
+    return <Loading />;
+  }
+  if (error) {
+    return <Error errorMessage={error} />;
+  }
   const {
     name,
     photo,
-    ticketPrice,
-    specialization,
-    experiences,
-    about,
-    bio,
     totalRating,
+    specialization,
+    bio,
   } = data;
-  // console.log(data, loading, error);
+
   return (
     <>
       <section>
@@ -40,24 +42,23 @@ function DoctorDetails() {
                 </figure>
                 <div className="">
                   <span className="bg-[#ccf0f3] text-irisBlueColor py-1 px-6 lg:py-2 lg:px-6 text-[12px] leading-4 lg:text-[16px] lg:leading-7 font-semibold rounded">
-                    Surgeon
+                    {specialization}
                   </span>
                   <h3 className="text-headingColor leading-9">{name}</h3>
                   <div className="flex items-center gap-[6px] ">
                     <span className="flex items-center gap-[6px] text-[14px] leading-5 lg:text-[16px] lg:leading-7 font-semibold text-textColor ">
-                      <img src={starIcon} alt="" /> 4.8
+                      <img src={starIcon} alt="" /> {totalRating}
                     </span>
                     <span className="text-[14px] leading-5 lg:text-[16px] lg:leading-7 text-textColor">
                       ({totalRating})
                     </span>
                   </div>
                   <p className="text__para text-[14px] leading-5 md:text-[15px] lg:max-w-[390px] ">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Reiciendis, dolores.
+                    {bio}
                   </p>
                 </div>
               </div>
-              <div className="mt-[50px] border-b border-solid border-[#0066ff34]">
+              <div className="mt-[80px] border-b border-solid border-[#0066ff34]">
                 <button
                   onClick={() => setTab("about")}
                   className={`${
@@ -77,7 +78,7 @@ function DoctorDetails() {
                   Feedback
                 </button>
               </div>
-              <div className="mt-[50px]">
+              <div className="my-[20px]">
                 {tab == "about" && <DoctorAbout doctor={data} />}
                 {tab == "feedback" && <DoctorFeedback />}
               </div>

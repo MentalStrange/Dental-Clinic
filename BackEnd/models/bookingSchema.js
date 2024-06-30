@@ -30,4 +30,9 @@ const bookingSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+bookingSchema.pre(/^find/, function(next) {
+  this.populate('doctor').populate('user');
+  next();
+});
+
 export default mongoose.model("Booking", bookingSchema);

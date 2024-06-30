@@ -12,7 +12,7 @@ function useFetchData(url) {
       try {
         const res = await fetch(url, {
           method: "GET",
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { authorization: `Bearer ${token}` },
         });
         const result = await res.json();
         if (!res.ok) {
@@ -33,5 +33,4 @@ function useFetchData(url) {
     error,
   };
 }
-
 export default useFetchData;

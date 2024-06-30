@@ -86,13 +86,10 @@ export const getUserProfile = async (req, res) => {
 export const getMyAppointment = async (req, res) => {
   try {
     const bookings = await Booking.find({ user: req.userId });
-
-    const doctorIds = bookings.map((booking) => booking.doctorId);
-
+    const doctorIds = bookings.map((booking) => booking.doctor);
     const doctors = await Doctor.find({ _id: { $in: doctorIds } }).select(
       "-password"
     );
-
     res.status(200).json({
       success: true,
       message: "Appointments found",
@@ -104,8 +101,8 @@ export const getMyAppointment = async (req, res) => {
 };
 
 export const createAppointment = async (req, res) => {
-  const { doctorId, user } = req.body;
-  const doctor = findById(doctorId);
+  const { doctorId, user, day } = req.body;
+  const doctor = await Doctor.findById(doctorId);
   if (!doctor) {
     return res
       .status(404)
@@ -117,14 +114,27 @@ export const createAppointment = async (req, res) => {
         .status(401)
         .json({ success: false, message: "there is something wrong" });
     }
+
+    const timeSlot = doctor.timeSlots.find(slot => slot.day === day);
+    if (!timeSlot) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid day provided" });
+    }
+
+    const appointmentDate = new Date();
+    const dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"].indexOf(day);
+    appointmentDate.setDate(appointmentDate.getDate() + ((7 + dayOfWeek - appointmentDate.getDay()) % 7));
+
     const appointment = new Booking({
       doctor: doctorId,
       user,
       ticketPrice: doctor.ticketPrice,
-      appointmentDate: doctor.appointments[0].day,
+      appointmentDate,
     });
-
     await appointment.save();
+    doctor.appointments.push(appointment._id);
+    await doctor.save();
     res.status(200).json({
       success: true,
       message: "Appointment saved successfully",

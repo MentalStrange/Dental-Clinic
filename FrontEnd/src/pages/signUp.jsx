@@ -10,6 +10,7 @@ function SignUp() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewURL, setPreviewURL] = useState("");
   const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -26,10 +27,12 @@ function SignUp() {
 
   const handleInputFileChange = async (e) => {
     const file = e.target.files[0];
+    setUploading(true);
     const data = await uploadImageToCloudinary(file);
     setPreviewURL(data.url);
     setSelectedFile(data.url);
     setFormData({ ...formData, photo: data.url });
+    setUploading(false);
   };
 
   const submitHandler = async (e) => {
@@ -159,12 +162,12 @@ function SignUp() {
                       <img
                         src={previewURL}
                         alt=""
-                        className="w-full rounded-full"
+                        className="w-[100px] h-[55px] rounded-full"
                       />
                     </figure>
                   )}
 
-                  <div className="relative w-[130px] h-[50px]">
+                  <div className="relative w-[120px] h-[50px]">
                     <input
                       type="file"
                       name="photo"
@@ -177,7 +180,11 @@ function SignUp() {
                       htmlFor="customFile"
                       className="absolute top-0 left-0 w-full h-full flex items-center px-[0.75rem] py-[0.375rem] text-[15px] leading-6 overflow-hidden bg-[#0066ff46] text-headingColor font-semibold rounded-lg truncate cursor-pointer"
                     >
-                      Upload Photo
+                      {uploading ? (
+                        <HashLoader size={20} color="white" />
+                      ) : (
+                        "Upload Photo"
+                      )}
                     </label>
                   </div>
                 </div>

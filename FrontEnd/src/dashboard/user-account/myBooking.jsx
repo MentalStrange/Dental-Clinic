@@ -5,21 +5,20 @@ import Loading from "../../components/loader/loading";
 import Error from "../../components/error/error";
 import DoctorCard from "../../components/doctors/doctorCard";
 
-// eslint-disable-next-line react/prop-types
-function MyBooking({ doctor }) {
+// eslint-disable-next-line react/prop-types, no-unused-vars
+function MyBooking() {
   const {
     data: appointments,
     loading,
     error,
   } = useFetchData(`${BASE_URL}/users/appointments/my-appointments`);
-
   return (
     <>
       {loading && !error && <Loading />}
       {error && !loading && <Error errorMessage={error} />}
-      {!loading && !error && Array.isArray(appointments) && (
+      {!loading && !error && Array.isArray(appointments?.doctors) && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-          {appointments.map((doctor) => (
+          {appointments?.doctors?.map((doctor) => (
             <div key={doctor._id}>
               <DoctorCard doctor={doctor} />
             </div>

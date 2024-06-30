@@ -106,3 +106,24 @@ export const getDoctorProfile = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+export const deleteAppointment = async (req,res) => {
+  const appointmentId = req.params.id;
+  try {
+    await Booking.findByIdAndUpdate(appointmentId, { status:"cancelled" });
+    res.status(200).json({ success: true, message: "Appointment deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+}
+
+export const updateAppointment = async (req,res) => {
+  const appointmentId = req.params.id;
+  const status = req.body.status;
+  try {
+    await Booking.findByIdAndUpdate(appointmentId, { status });
+    res.status(200).json({ success: true, message: "Appointment accepted successfully" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+}

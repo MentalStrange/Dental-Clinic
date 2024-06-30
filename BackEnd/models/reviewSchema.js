@@ -31,6 +31,7 @@ reviewSchema.pre(/^find/, function (next) {
     path: "user",
     select: "name photo",
   });
+  next();
 });
 
 reviewSchema.statics.calcAverageRating = async function (doctorId) {
@@ -46,13 +47,26 @@ reviewSchema.statics.calcAverageRating = async function (doctorId) {
       },
     },
   ]);
-  await Doctor.findByIdAndUpdate(doctorId, {
-    totalRating: stats[0].numOfRating,
-    averageRating: stats[0].avgRating,
-  });
+  if (stats.length > 0) {
+    await Doctor.findByIdAndUpdate(doctorId, {
+      totalRating: stats[0].numOfRating,
+      averageRating: stats[0].avgRating,
+    });
+  } else {
+    await Doctor.findByIdAndUpdate(doctorId, {
+      totalRating: 0,
+      averageRating: 0,
+    });
+  }
 };
 
 reviewSchema.post("save", function () {
   this.constructor.calcAverageRating(this.doctor);
 });
+
+reviewSchema.post("remove", function () {
+  this.constructor.calcAverageRating(this.doctor);
+});
+
 export default mongoose.model("Review", reviewSchema);
+

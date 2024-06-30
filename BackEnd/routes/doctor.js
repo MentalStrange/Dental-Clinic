@@ -5,13 +5,16 @@ import {
   getAllDoctor,
   deleteDoctor,
   getDoctorProfile,
+  deleteAppointment,
+  updateAppointment,
 } from "./../controllers/doctorController.js";
 import { authenticate, restrict } from "../auth/verifyToken.js";
 import reviewRouter from "./review.js";
+import { getReviewsByDoctorId } from "../controllers/reviewController.js";
 
 const router = express.Router();
 
-router.use("/:doctorId/reviews", reviewRouter);
+// router.use("/:doctorId/reviews", reviewRouter);
 
 router.get(
   "/",
@@ -32,9 +35,9 @@ router.delete(
   restrict(["doctor", "admin"]),
   deleteDoctor
 );
-() => {
-  console.log("hello");
-};
+
 router.get("/profile/me", authenticate, restrict(["doctor"]), getDoctorProfile);
+router.get('/:doctorId/reviews', authenticate, restrict(["doctor", "patient", "admin"]), getReviewsByDoctorId);
+router.patch('/appointment/:id',authenticate, restrict(["doctor"]), updateAppointment);
 
 export default router;

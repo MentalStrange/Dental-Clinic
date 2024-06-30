@@ -2,6 +2,7 @@ import express from "express";
 import {
   getAllReviews,
   createReview,
+  getReviewsByDoctorId,
 } from "../controllers/reviewController.js";
 import { authenticate, restrict } from "../auth/verifyToken.js";
 
@@ -11,5 +12,4 @@ router
   .route("/")
   .get(getAllReviews)
   .post(authenticate, restrict(["patient"]), createReview);
-
 export default router;

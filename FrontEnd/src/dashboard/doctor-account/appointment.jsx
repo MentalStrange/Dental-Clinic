@@ -1,6 +1,48 @@
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { BASE_URL } from "../../../config";
+import { formateDate } from "../../utils/formateDate";
+
 /* eslint-disable react/prop-types */
 function Appointment({ appointments }) {
-  console.log(appointments);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [actionType, setActionType] = useState("");
+
+  const handleUpdateAppointment = async (id, status) => {
+    const res = await fetch(`${BASE_URL}/doctors/appointment/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify({ status }),
+    });
+    if (res.status === 200) {
+      toast.success("Appointment accepted successfully");
+    }
+  };
+
+  const handleActionClick = (appointment, action) => {
+    setSelectedAppointment(appointment);
+    setActionType(action);
+    setIsModalOpen(true);
+  };
+
+  const handleModalConfirm = () => {
+    setIsModalOpen(false);
+    if (actionType === "delete") {
+      handleUpdateAppointment(selectedAppointment._id, "cancelled");
+    } else if (actionType === "accept") {
+      handleUpdateAppointment(selectedAppointment._id, "approved");
+    }
+  };
+
+  const handleModalCancel = () => {
+    setIsModalOpen(false);
+    setSelectedAppointment(null);
+    setActionType("");
+  };
 
   return (
     <div className="p-5 h-screen">
@@ -22,9 +64,6 @@ function Appointment({ appointments }) {
                 Date
               </th>
               <th className="w-24 p-3 text-sm font-semibold tracking-wide text-left">
-                Time
-              </th>
-              <th className="w-24 p-3 text-sm font-semibold tracking-wide text-left">
                 Payment
               </th>
               <th className="w-32 p-3 text-sm font-semibold tracking-wide text-left">
@@ -40,34 +79,37 @@ function Appointment({ appointments }) {
           </thead>
           <tbody className="divide-y divide-gray-100">
             {appointments.map((appointment) => (
-              <tr key={appointment.id} className="bg-white">
+              <tr key={appointment._id} className="bg-white">
                 <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                  {`${appointment.patientName}, ${appointment.gender}`}
+                  {appointment.user.name}
                 </td>
                 <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                  {appointment.gender}
+                  {appointment.user.gender}
+                </td>
+                <td className="p-3 text-sm text-gray-7000 whitespace-nowrap">
+                  {formateDate(appointment.appointmentDate)}
                 </td>
                 <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                  {appointment.date}
+                  {appointment.isPaid ? "Paid" : "Not Paid"}
                 </td>
                 <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                  {appointment.time}
+                  {appointment.doctor.ticketPrice}
                 </td>
                 <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                  {appointment.payment}
-                </td>
-                <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                  {appointment.price}
-                </td>
-                <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                  {appointment.bookedOn}
+                  {formateDate(appointment.createdAt)}
                 </td>
                 <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
                   <button
-                    className="text-white bg-red-600 p-2 rounded-md hover:bg-red-700"
-                    onClick={() => handleDeletePatient(appointment.id)}
+                    className="text-white bg-red-600 p-2 rounded-md hover:bg-red-700 mr-2"
+                    onClick={() => handleActionClick(appointment, "delete")}
                   >
                     Delete
+                  </button>
+                  <button
+                    className="text-white bg-green-600 p-2 rounded-md hover:bg-green-700"
+                    onClick={() => handleActionClick(appointment, "accept")}
+                  >
+                    Accept
                   </button>
                 </td>
               </tr>
@@ -79,32 +121,68 @@ function Appointment({ appointments }) {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:hidden">
         {appointments.map((appointment) => (
           <div
-            key={appointment.id}
+            key={appointment._id}
             className="bg-white space-y-3 p-4 rounded-lg shadow"
           >
             <div className="flex items-center space-x-2 text-sm">
-              <div className="text-gray-500">{appointment.bookedOn}</div>
+              <div className="text-gray-500">{appointment.user.name}</div>
             </div>
             <div className="text-sm text-gray-700">
-              {`${appointment.patientName}, ${appointment.gender}`}
+              {`${appointment.user.gender}`}
             </div>
             <div className="text-sm font-medium text-black">
-              {appointment.price}
+              {appointment.doctor.ticketPrice}{" "}Pound
             </div>
-            <div className="text-sm text-gray-700">
-              {`Date: ${appointment.date}, Time: ${appointment.time}, Payment: ${appointment.payment}`}
+            <div className="text-sm text-gray-7000">
+              {`Date: ${formateDate(appointment.appointmentDate)}, Payment: ${appointment.isPaid?"Paid":"Not Paid"}`}
             </div>
-            <div className="flex justify-start">
+            <div className="flex justify-around">
               <button
                 className="text-white bg-red-600 p-2 rounded-md hover:bg-red-700"
-                onClick={() => handleDeletePatient(appointment.id)}
+                onClick={() => handleActionClick(appointment, "delete")}
               >
                 Delete
+              </button>
+              <button
+                className="text-white bg-green-600 p-2 rounded-md hover:bg-green-700"
+                onClick={() => handleActionClick(appointment, "accept")}
+              >
+                Accept
               </button>
             </div>
           </div>
         ))}
       </div>
+
+      {isModalOpen && (
+        <div
+          className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50"
+          onClick={handleModalCancel}
+        >
+          <div
+            className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md mx-4 sm:mx-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <p className="text-lg font-semibold mb-4">
+              Are you sure you want to {actionType} this appointment?
+            </p>
+            <div className="flex justify-end space-x-4">
+              <button
+                className="bg-teal-700 text-white px-4 py-2 rounded-md hover:bg-teal-600"
+                onClick={handleModalConfirm}
+              >
+                Yes
+              </button>
+              <button
+                className="bg-red-700 text-white px-4 py-2 rounded-md hover:bg-red-600"
+                onClick={handleModalCancel}
+              >
+                No
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

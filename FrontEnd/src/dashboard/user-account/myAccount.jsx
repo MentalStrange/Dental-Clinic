@@ -6,6 +6,8 @@ import useGetProfile from "../../hooks/useFetchData";
 import { BASE_URL } from "../../../config";
 import Loading from "../../components/loader/loading";
 import Error from "../../components/error/error";
+import axios from "axios";
+import { toast } from "react-toastify";
 function MyAccount() {
   const { dispatch } = useContext(authContext);
   const [tab, setTab] = useState("booking");
@@ -16,7 +18,18 @@ function MyAccount() {
     dispatch({ type: "LOGOUT" });
   };
 
-  const handleDeleteAccount = () => {};
+  const handleDeleteAccount = async () => {
+    try {
+      const res = await axios.delete(`${BASE_URL}/users/profile/me`);
+      if (res.status === 200) {
+        dispatch({ type: "LOGOUT" });
+      }
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      dispatch({ type: "LOGOUT" });
+    }
+  };
   return (
     <>
       <section>
@@ -43,9 +56,9 @@ function MyAccount() {
                   <p className="text-textColor text-[15px] leading-6 font-medium">
                     {data.email}
                   </p>
-                  <p className="text-textColor text-[15px] leading-6 font-medium">
+                  <p className="text-textColor text-[18px] leading-6 font-medium">
                     Blood Type:{" "}
-                    <span className="ml-2 text-headingColor text-[22px] leading-8">
+                    <span className=" text-headingColor text-[18px] leading-8 font-semibold">
                       {data.bloodType}
                     </span>
                   </p>
@@ -92,7 +105,7 @@ function MyAccount() {
                 {tab === "booking" ? (
                   <MyBooking user={data} />
                 ) : (
-                  <ProfileSettings />
+                  <ProfileSettings user={data}/>
                 )}
               </div>
             </div>

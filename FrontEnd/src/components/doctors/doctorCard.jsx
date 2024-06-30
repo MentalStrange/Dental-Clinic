@@ -3,24 +3,17 @@
 import { Link } from "react-router-dom";
 import starIcon from "./../../assets/img/Star.png";
 import { FaArrowRight } from "react-icons/fa";
-import useFetchData from "./../../hooks/useFetchData";
-import { BASE_URL } from "../../../config";
 function DoctorCard({ doctor }) {
   const {
     _id: id,
     name,
-    specialty,
+    specialization,
     photo,
+    about,
     avgRating,
     totalRating,
     totalPatients,
-    hospital,
   } = doctor;
-  const {
-    data: doctorData,
-    loading,
-    error,
-  } = useFetchData(`${BASE_URL}/doctors/${id}`);
   return (
     <>
       <div className="p-3 lg:p-5 ">
@@ -31,8 +24,8 @@ function DoctorCard({ doctor }) {
           {name}
         </h2>
         <div className="mt-2 lg:mt-4 flex items-center justify-between">
-          <span className="bg-[#CCF0F3] text-irisBlueColor px-2 lg:py-2 text-[12px leading-4 lg:text-[16px] lg:leading-7 font-semibold]">
-            {specialty}
+          <span className="bg-[#CCF0F3] text-irisBlueColor p-2 rounded-sm lg:py-2 text-[12px leading-4 lg:text-[16px] lg:leading-7 font-semibold]">
+            {specialization}
           </span>
           <div className="flex item-center gap-[6px]">
             <span className="flex items-center gap-[6px] text-[14px] leading-6 lg:text-[16px] lg:leading-7 font-semibold text-headingColor ">
@@ -50,11 +43,11 @@ function DoctorCard({ doctor }) {
               {totalPatients}
             </h3>
             <p className="text-[14px] leading-6 font-[400] text-textColor">
-              At {hospital}
+              At {about}
             </p>
           </div>
           <Link
-            to={`/doctors/${id}}`}
+            to={`/doctors/${id}`}
             className="w-[44px] h-[44px] rounded-full border border-solid border-[#181A1E]  flex items-center justify-center group hover:bg-primaryColor hover:border-none"
           >
             <FaArrowRight className="group-hover:text-white w-6 h-5" />

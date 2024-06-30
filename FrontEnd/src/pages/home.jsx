@@ -1,12 +1,8 @@
 import { Link } from "react-router-dom";
-import heroImg1 from "./../assets/img/hero-img01.png";
-import heroImg2 from "./../assets/img/hero-img02.png";
-import heroImg3 from "./../assets/img/hero-img03.png";
 import faqImg from "./../assets/img/faq-img.png";
 import icon01 from "./../assets/img/icon01.png";
 import icon02 from "./../assets/img/icon02.png";
 import icon03 from "./../assets/img/icon03.png";
-import featureImg from "./../assets/img/feature-img.png";
 import { FaArrowRight } from "react-icons/fa";
 import About from "../components/about/about";
 import Services from "../components/services/services";
@@ -14,67 +10,81 @@ import ServicesList from "../components/services/servicesList";
 import DoctorList from "../components/doctors/doctorsList";
 import FaqList from "../components/faq/faqList";
 import Feedback from "../components/feedback/feedback";
+import Icons from "../components/Icons/icons";
+import heroImage from "./../assets/img/Hero.png";
 function Home() {
   return (
     <>
       <>
         {/* ========= hero section ========= */}
-        <section className="hero__section pt-[60px] 2xl:h-[800px]">
-          <div className="container">
-            <div className="flex flex-col lg:flex-row gap-[90px] items-center justify-between">
-              {/* ========== start hero content ======== */}
-              <div className="">
-                <div className="lg:w-[570px]">
-                  <h1 className="text-[36px] leading-[45px] text-headingColor font-[800] md:text-[60px] md:leading-[70px]">
-                    We help patients live a healthy, longer life.
-                  </h1>
-                  <p className="text__para">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. A
-                    eveniet tempore blanditiis quam reiciendis, officiis
-                    voluptatum dignissimos maiores modi aperiam eligendi
-                    nesciunt qui deserunt porro enim voluptatem veniam fuga
-                    dolorem.
-                  </p>
-                  <button className="btn">Request an Appointment</button>
-                </div>
-                {/* =========== hero counter ============ */}
-                <div className="mt-[30px] lg:mt[70px] flex flex-col lg:flex-row lg:item-center gap-5 lg:gap-[30px] ">
-                  <div>
-                    <h2 className="text-[36px] leading-[56px] lg:text-[44px] lg:leading-[54px] font-[700]">
-                      +30
-                    </h2>
-                    <span className="w-[100px] h-2 bg-yellowColor rounded-full block mt-[-14px]"></span>
-                    <p className="text__para">Years of Experience</p>
-                  </div>
-                  <div>
-                    <h2 className="text-[36px] leading-[56px] lg:text-[44px] lg:leading-[54px] font-[700]">
-                      +30
-                    </h2>
-                    <span className="w-[100px] h-2 bg-purpleColor rounded-full block mt-[-14px]"></span>
-                    <p className="text__para">Clinic Location</p>
-                  </div>
-                  <div>
-                    <h2 className="text-[36px] leading-[56px] lg:text-[44px] lg:leading-[54px] font-[700]">
-                      +30
-                    </h2>
-                    <span className="w-[100px] h-2 bg-irisBlueColor rounded-full block mt-[-14px]"></span>
-                    <p className="text__para">Patient Satisfaction</p>
-                  </div>
-                </div>
-              </div>
-              <div className="flex gap-[30px] justify-end">
-                <div>
-                  <img src={heroImg1} alt="" className="w-full " />
-                </div>
-                <div className="mt-[30px]">
-                  <img src={heroImg2} alt="" className="w-full mb-[30px] " />
-                  <img src={heroImg3} alt="" className="w-full " />
-                </div>
+        <div className="container px-10 py-10 space-x-6 flex flex-col-reverse md:flex-row ">
+          <div className=" space-y-5 md:w-1/2 flex flex-col justify-center py-6 text-center md:text-left">
+            <p className="font-bold bg-teal-900 text-xl md:text-3xl text-white p-2 rounded-xl">
+              Leading Dental Solution From 2019
+            </p>
+            <h1 className="text-4xl md:text-6xl text-teal-600 font-bold">
+              Feel better about your smile.
+            </h1>
+            <div className="space-x-2 md:">
+              <Link
+                to={"/doctors"}
+                className="px-6 py-2 bg-teal-900 rounded-full text-white hover:bg-teal-600"
+              >
+                Book Now
+              </Link>
+              <a
+                href="tel:+201015775920"
+                className="px-6 py-2 bg-teal-900 rounded-full text-white hover:bg-teal-600"
+              >
+                Call Doctor
+              </a>
+            </div>
+            <p className="font-bold text-console.log();">
+              You Can Reach Us Faster Call
+              <span className="text-teal-600">
+                {" "}
+                <a href="tel:+201015775920">+201015775920</a>{" "}
+              </span>
+            </p>
+            <div>
+              <label
+                htmlFor="searchDoctor"
+                className="block mb-2 text-teal-600 font-bold"
+              >
+                Search For Doctor
+              </label>
+              <input
+                type="search"
+                name="searchDoctor"
+                id="searchDoctor"
+                className="border border-teal-600 p-2 rounded-full w-full focus:outline-none"
+                placeholder="Search For Doctor"
+              />
+              <input
+                type="submit"
+                value="Search"
+                className="px-6 py-2 bg-teal-900 rounded-xl text-white hover:bg-teal-600 mt-2"
+              />
+            </div>
+          </div>
+          <div className=" flex justify-center md:w-1/2">
+            <div className="flex flex-row items-center justify-end ">
+              <img
+                src={heroImage}
+                alt="Doctor image"
+                className="h-[25rem] md:h-[35rem]"
+              />
+              <div className="hidden lg:flex flex-col ps-20 space-y-3">
+                <Icons />
               </div>
             </div>
           </div>
-        </section>
+        </div>
         {/* ========== end hero content ======== */}
+
+        {/* ============ start about section =============*/}
+        <About />
+        {/* ============ end about section ===============*/}
 
         {/*========== under hero section =========*/}
         <section>
@@ -162,48 +172,12 @@ function Home() {
         </section>
         {/*========== under hero section =========*/}
 
-        {/* ============ start about section =============*/}
-        <About />
-        {/* ============ end about section ===============*/}
-
         {/* =========== start service ==============*/}
-        <section className="container">
+        <section className="bg-teal-50">
           <Services />
           <ServicesList />
         </section>
         {/* =========== end service ==============*/}
-
-        {/* =========== start feature ================= */}
-        <section>
-          <div className="container">
-            <div className="flex items-center justify-between flex-col lg:flex-row">
-              {/* =========== feature content ========= */}
-              <div className="xl:w-[670px]">
-                <h2 className="heading">Get Virtual treatment</h2>
-                <ul className="pl-4">
-                  <li className="text__para">
-                    1. Schedule the appointment directly
-                  </li>
-                  <li className="text__para">
-                    2. Search for your physician here, and contact their office.
-                  </li>
-                  <li className="text__para">
-                    3. View Our physician who are accepting new patients.
-                  </li>
-                </ul>
-                <Link to={"/"}>
-                  <button className="btn">Learn More</button>
-                </Link>
-              </div>
-              {/* =========== feature img =========== */}
-              <div className="relative z-10 xl:w-[770px] flex justify-center lg:justify-end mt-[50px] lg:mt-0 ">
-                <img src={featureImg} className="w-3/4" alt="" />
-                <div className="w-[150px] lg:w-[248px] bg-white absolute bottom-[50px] left-0 md:bottom-[100px] "></div>
-              </div>
-            </div>
-          </div>
-        </section>
-        {/* =========== end feature ================= */}
 
         {/* =========== start doctor =============== */}
         <section>
@@ -225,7 +199,7 @@ function Home() {
           <div className="container">
             <div className="flex items-center gap-[50px] lg:gap-0 ">
               <div className="w-1/2 hidden md:block">
-                <img src={faqImg} alt="" />
+                <img src={faqImg} alt="" className="h-full w-full rounded-xl" />
               </div>
               <div className="w-full md:w-1/2">
                 <h2 className="heading mb-5">

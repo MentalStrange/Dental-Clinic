@@ -1,39 +1,33 @@
-import aboutImg from "./../../assets/img/about.png";
-import aboutCard from "./../../assets/img/about-card.png";
+import aboutImg from "./../../assets/img/about.jpg";
 import { Link } from "react-router-dom";
 function About() {
   return (
     <>
-      <div className="container">
-        <div className="flex justify-between gap-[50px] lg:gap-[130px] flex-col lg:flex-row">
-          {/* ======= about img ======== */}
-          <div className="relative w-3/4 lg:w-1/2 xl:w-[770px] z-10 order-2 lg:order-1">
-            <img src={aboutImg} alt="" />
-            <div className="absolute z-20 bottom-4 w-[200px] md:w-[300px] right-[-30%] md:right-[-7%] lg:right-[22%]">
-              <img src={aboutCard} alt="" />
+      <div className=" bg-teal-50 p-0 m-0">
+        <div className=" container text-center px-10 py-10 md:py-20 ">
+          <h1 className=" mb-4 text-teal-900 font-bold text-4xl relative lg:text-9xl lg:absolute lg:mx-[27rem] ">
+            About Us
+          </h1>
+          <div className="flex flex-col items-center md:flex-row md:space-x-5">
+            <img
+              src={aboutImg}
+              alt="About Us image"
+              className="md:w-1/2 rounded-t-xl"
+            />
+            <div className="mt-3 flex items-end md:items-center md:w-1/2 ">
+              <p className="leading-7 text-gray-500 md:font-semibold">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Earum
+                inventore eius unde cumque id reprehenderit sit. Eius sunt ipsam
+                dicta. Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                Quis ipsa pariatur non! Totam nihil neque possimus aperiam,
+                ipsam doloribus. Pariatur ad assumenda accusamus. Doloremque
+                earum fugit et quidem optio magnam! Lorem ipsum dolor sit amet
+                consectetur adipisicing elit. Eos ratione dolores molestias non
+                quam quidem tempora dolorem autem, delectus repudiandae
+                aspernatur reiciendis iure illum, laboriosam quaerat sint,
+                explicabo temporibus excepturi!
+              </p>
             </div>
-          </div>
-
-          {/* About Content */}
-          <div className="w-full lg:w-1/2 xl:w-[670px] order-1 lg:order-2">
-            <h2 className="heading">Proud to be one of the nations best</h2>
-            <p className="text__para">
-              For 30 years in a row, Egypt. News & world Report has recognized
-              us as one of the best publics clinic in the nation and #1 in
-              Toukh. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Dolores laborum temporibus labore unde laudantium deleniti eaque
-              asperiores harum expedita, beatae minus ratione atque. Architecto
-              repellendus inventore quo maiores. Sit, ex.
-            </p>
-            <p className="text__para mt-[30px]">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam nulla
-              consequuntur minima aliquid ex dolor, recusandae obcaecati
-              blanditiis delectus consequatur maxime. Laboriosam amet distinctio
-              ex earum temporibus blanditiis dignissimos explicabo.
-            </p>
-            <Link to={"/"}>
-              <button className="btn">Learn More</button>
-            </Link>
           </div>
         </div>
       </div>
