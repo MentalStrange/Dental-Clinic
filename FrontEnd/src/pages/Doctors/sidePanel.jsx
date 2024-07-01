@@ -4,12 +4,12 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { BASE_URL } from "../../../config";
 import { toast } from "react-toastify";
+import {token} from "../../../config";
 
 function SidePanel({ doctor }) {
   const { id: doctorId } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDay, setSelectedDay] = useState("");
-
   const handleBookingAppointment = async () => {
     try {
       const res = await fetch(
@@ -18,6 +18,7 @@ function SidePanel({ doctor }) {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             doctorId,
