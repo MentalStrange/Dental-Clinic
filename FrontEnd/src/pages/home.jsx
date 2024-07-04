@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import faqImg from "./../assets/img/faq-img.png";
 import icon01 from "./../assets/img/icon01.png";
 import icon02 from "./../assets/img/icon02.png";
@@ -11,75 +11,85 @@ import DoctorList from "../components/doctors/doctorsList";
 import FaqList from "../components/faq/faqList";
 import Feedback from "../components/feedback/feedback";
 import Icons from "../components/Icons/icons";
-import heroImage from "./../assets/img/Hero.png";
+import heroImage from "./../assets/img/Hero.jpg";
+import { useState } from "react";
 function Home() {
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const searchHandle = (e) => {
+    e.preventDefault();
+    navigate(`/doctors?query=${searchQuery}`);
+  };
   return (
     <>
       <>
         {/* ========= hero section ========= */}
         <div className="container px-10 py-10 space-x-6 flex flex-col-reverse md:flex-row ">
-          <div className=" space-y-5 md:w-1/2 flex flex-col justify-center py-6 text-center md:text-left">
-            <p className="font-bold bg-teal-900 text-xl md:text-3xl text-white p-2 rounded-xl">
-              Leading Dental Solution From 2019
-            </p>
-            <h1 className="text-4xl md:text-6xl text-teal-600 font-bold">
-              Feel better about your smile.
-            </h1>
-            <div className="space-x-2 md:">
-              <Link
-                to={"/doctors"}
-                className="px-6 py-2 bg-teal-900 rounded-full text-white hover:bg-teal-600"
-              >
-                Book Now
-              </Link>
-              <a
-                href="tel:+201015775920"
-                className="px-6 py-2 bg-teal-900 rounded-full text-white hover:bg-teal-600"
-              >
-                Call Doctor
-              </a>
-            </div>
-            <p className="font-bold text-console.log();">
-              You Can Reach Us Faster Call
-              <span className="text-teal-600">
-                {" "}
-                <a href="tel:+201015775920">+201015775920</a>{" "}
-              </span>
-            </p>
-            <div>
-              <label
-                htmlFor="searchDoctor"
-                className="block mb-2 text-teal-600 font-bold"
-              >
-                Search For Doctor
-              </label>
-              <input
-                type="search"
-                name="searchDoctor"
-                id="searchDoctor"
-                className="border border-teal-600 p-2 rounded-full w-full focus:outline-none"
-                placeholder="Search For Doctor"
-              />
-              <input
-                type="submit"
-                value="Search"
-                className="px-6 py-2 bg-teal-900 rounded-xl text-white hover:bg-teal-600 mt-2"
-              />
-            </div>
+        <div className="space-y-5 md:w-1/2 flex flex-col justify-center py-6 text-center md:text-left">
+          <p className="font-bold bg-teal-900 text-xl md:text-3xl text-white p-2 rounded-xl">
+            Leading Dental Solution From 2019
+          </p>
+          <h1 className="text-4xl md:text-6xl text-teal-600 font-bold">
+            Feel better about your smile.
+          </h1>
+          <div className="space-x-2">
+            <Link
+              to={"/doctors"}
+              className="px-6 py-2 bg-teal-900 rounded-full text-white hover:bg-teal-600"
+            >
+              Book Now
+            </Link>
+            <a
+              href="tel:+201015775920"
+              className="px-6 py-2 bg-teal-900 rounded-full text-white hover:bg-teal-600"
+            >
+              Call Doctor
+            </a>
           </div>
-          <div className=" flex justify-center md:w-1/2">
-            <div className="flex flex-row items-center justify-end ">
-              <img
-                src={heroImage}
-                alt="Doctor image"
-                className="h-[25rem] md:h-[35rem]"
-              />
-              <div className="hidden lg:flex flex-col ps-20 space-y-3">
-                <Icons />
-              </div>
+          <p className="font-bold">
+            You Can Reach Us Faster Call
+            <span className="text-teal-600">
+              {" "}
+              <a href="tel:+201015775920">+201015775920</a>{" "}
+            </span>
+          </p>
+          <form onSubmit={searchHandle}>
+            <label
+              htmlFor="searchDoctor"
+              className="block mb-2 text-teal-600 font-bold"
+            >
+              Search For Doctor
+            </label>
+            <input
+              type="search"
+              name="searchDoctor"
+              id="searchDoctor"
+              className="border border-teal-600 p-2 rounded-full w-full focus:outline-none"
+              placeholder="Search For Doctor"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <input
+              type="submit"
+              value="Search"
+              className="px-6 py-2 bg-teal-900 rounded-xl text-white hover:bg-teal-600 mt-2"
+            />
+          </form>
+        </div>
+        <div className="flex justify-center md:w-1/2">
+          <div className="flex flex-row items-center justify-end ">
+            <img
+              src={heroImage}
+              alt="Doctor image"
+              className="h-[25rem] md:h-[35rem]"
+            />
+            <div className="hidden lg:flex flex-col ps-20 space-y-3">
+              <Icons />
             </div>
           </div>
         </div>
+      </div>
         {/* ========== end hero content ======== */}
 
         {/* ============ start about section =============*/}

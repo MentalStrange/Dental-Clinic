@@ -85,7 +85,7 @@ function FeedbackForm({ onNewReview }) {
           />
         </div>
         <button className="btn" type="submit" disabled={loading}>
-          {loading ? <Loading /> : "Submit Feedback"}
+          {loading ? <Loading color="white" /> : "Submit Feedback"}
         </button>
       </form>
     </>

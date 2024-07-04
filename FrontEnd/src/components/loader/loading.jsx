@@ -1,10 +1,11 @@
+/* eslint-disable react/prop-types */
 import { HashLoader } from "react-spinners";
 
-function Loading() {
+function Loading({color}) {
   return (
     <>
       <div className="flex items-center justify-center w-full h-full">
-        <HashLoader color="teal" />
+        <HashLoader color={color?color:"teal"} />
       </div>
     </>
   );

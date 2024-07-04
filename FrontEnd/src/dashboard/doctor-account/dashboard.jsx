@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
-import { BASE_URL, token } from "../../../config";
-import useGetProfile from "../../hooks/useFetchData";
+import { BASE_URL } from "../../../config";
+import useFetchData from "../../hooks/useFetchData";
 import { authContext } from "../../context/authContext";
 import Loading from "../../components/loader/loading";
 import Error from "../../components/error/error";
@@ -8,17 +8,18 @@ import Overview from "./overview";
 import Appointment from "./appointment";
 import Profile from "./profile";
 import { toast } from "react-toastify";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
-  const { dispatch } = useContext(authContext);
+  const { dispatch, token } = useContext(authContext);
   const [tab, setTab] = useState("overview");
-  const { data, loading, error } = useGetProfile(
-    `${BASE_URL}/doctors/profile/me`
-  );
+  const { data, loading, error } = useFetchData(`${BASE_URL}/doctors/profile/me`);
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     dispatch({ type: "LOGOUT" });
+    localStorage.clear();
+    navigate("/");
   };
 
   const handleDeleteAccount = async () => {
@@ -34,7 +35,7 @@ function Dashboard() {
       if (!res.ok) {
         const errorMessage = await res.text();
         toast.error(errorMessage);
-        Navigate("/");
+        navigate("/");
         throw new Error(errorMessage);
       }
     } catch (error) {
@@ -84,7 +85,7 @@ function Dashboard() {
               </button>
               <button
                 className="w-full bg-red-600 p-3 text-lg leading-7 rounded-md text-white"
-                onClick={() => handleDeleteAccount()}
+                onClick={handleDeleteAccount}
               >
                 Delete Account
               </button>

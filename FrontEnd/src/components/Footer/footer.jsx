@@ -79,7 +79,9 @@ function Footer() {
         <div className="container">
           <div className="flex justify-between flex-col md:flex-row flex-wrap gap-[30px] ">
             <div>
-              <img src={logo} alt="" className="w-[170px]" />
+              <Link to={"/"}>
+                <img src={logo} alt="" className="w-[170px]" />
+              </Link>
               <p className="text-[16px] leading-7 font-[400] text-textColor mt-4  ">
                 Copyright&copy; {year} developed by Mohamed Ramadan all right
                 reserved.

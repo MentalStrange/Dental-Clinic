@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { authContext } from "../../context/authContext";
 import MyBooking from "./myBooking";
 import ProfileSettings from "./profileSettings";
@@ -8,12 +8,20 @@ import Loading from "../../components/loader/loading";
 import Error from "../../components/error/error";
 import axios from "axios";
 import { toast } from "react-toastify";
+
 function MyAccount() {
   const { dispatch } = useContext(authContext);
   const [tab, setTab] = useState("booking");
   const { data, loading, error } = useGetProfile(
     `${BASE_URL}/users/profile/me`
   );
+
+  useEffect(() => {
+    if (!loading && !error && data === null) {
+      dispatch({ type: "LOGOUT" });
+    }
+  }, [loading, error, data, dispatch]);
+
   const handleLogout = () => {
     dispatch({ type: "LOGOUT" });
   };
@@ -30,6 +38,7 @@ function MyAccount() {
       dispatch({ type: "LOGOUT" });
     }
   };
+
   return (
     <>
       <section>

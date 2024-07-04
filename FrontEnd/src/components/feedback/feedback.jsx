@@ -7,7 +7,6 @@ import { BASE_URL } from "../../../config";
 import useFetchData from "../../hooks/useFetchData";
 function Feedback() {
   const { data, loading, error } = useFetchData(`${BASE_URL}/reviews/`);
-  console.log(data);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error loading feedback</p>;

@@ -1,3 +1,5 @@
+import {  useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { BASE_URL } from "../../../config";
 import DoctorCard from "../../components/doctors/doctorCard";
 import Feedback from "../../components/feedback/feedback";
@@ -5,19 +7,34 @@ import useFetchData from "../../hooks/useFetchData";
 import Loading from "../../components/loader/loading";
 import Error from "../../components/error/error";
 
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
+
 function Doctors() {
-  const {data:doctors, error, loading} = useFetchData(`${BASE_URL}/doctors/`);
+  const query = useQuery();
+  const searchQuery = query.get('query') || "";
+  const { data: doctors, error, loading, fetchData } = useFetchData(`${BASE_URL}/doctors/?query=${searchQuery}`);
+
+  useEffect(() => {
+    if (searchQuery) {
+      fetchData(`${BASE_URL}/doctors/?query=${searchQuery}`);
+    } else {
+      fetchData(`${BASE_URL}/doctors/`);
+    }
+  }, [searchQuery, fetchData]);
+
   return (
     <>
       <section className="bg-[#fff9ea] ">
         <div className="container text-center">
           <h2 className="heading">Find a Doctor</h2>
         </div>
-        <div className="max-w-[570px] mt-[30px]  mx-auto bg-[0066ff2c] rounded-md flex items-center justify-between">
+        <div className="max-w-[570px] mt-[30px] mx-auto bg-[0066ff2c] rounded-md flex items-center justify-between">
           <input
             type="search"
-            name=""
-            id=""
+            name="searchDoctor"
+            id="searchDoctor"
             className="py-4 pl-4 pr-2 bg-slate-200 w-full focus-outline-none cursor-pointer placeholder:text-textColor"
             placeholder="Search a Doctor"
           />

@@ -30,7 +30,7 @@ function Profile({ doctor }) {
     timeSlots: [{ day: "", startTime: "", endTime: "" }],
     about: "",
   });
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Set initial values for form fields based on the doctor's profile
@@ -51,6 +51,7 @@ function Profile({ doctor }) {
     setQualification(doctor.qualifications || []);
     setTime(doctor.timeSlots || []);
   }, [doctor]);
+
   const handleInputChange = (e) => {
     e.preventDefault();
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -89,7 +90,7 @@ function Profile({ doctor }) {
       const { message } = await res.json();
       setLoading(false);
       toast.success(message);
-      Navigate("/doctors/profile/me");
+      navigate("/doctors/profile/me");
     } catch (error) {
       setLoading(false);
       toast.error(error.message);

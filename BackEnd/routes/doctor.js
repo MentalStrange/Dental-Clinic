@@ -18,8 +18,6 @@ const router = express.Router();
 
 router.get(
   "/",
-  authenticate,
-  restrict(["admin", "patient", "doctor"]),
   getAllDoctor
 );
 router.get(

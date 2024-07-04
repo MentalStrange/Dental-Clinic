@@ -3,10 +3,7 @@
 import { createContext, useEffect, useReducer } from "react";
 
 const initialState = {
-  user:
-    localStorage.getItem("user") !== undefined
-      ? JSON.parse(localStorage.getItem("user"))
-      : null,
+  user: JSON.parse(localStorage.getItem("user")) || null,
   role: localStorage.getItem("role") || null,
   token: localStorage.getItem("token") || null,
 };
@@ -21,21 +18,18 @@ const authReducer = (state, action) => {
         role: null,
         token: null,
       };
-
     case "LOGIN_SUCCESS":
       return {
         user: action.payload.user,
         token: action.payload.token,
         role: action.payload.role,
       };
-
     case "LOGOUT":
       return {
         user: null,
         token: null,
         role: null,
       };
-
     default:
       return state;
   }
